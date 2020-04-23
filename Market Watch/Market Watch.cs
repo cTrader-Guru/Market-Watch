@@ -111,7 +111,7 @@ namespace cAlgo
         [Output("10° Symbol", LineColor = "#1c1c1c")]
         public IndicatorDataSeries Symbol10 { get; set; }
 
-        List<string> RealSymbol = new List<string>(); 
+        List<string> RealSymbol = new List<string>();
 
         /// <summary>
         /// La prima procedura che viene eseguita non appena viene inserito l'indicatore sul grafico
@@ -159,16 +159,26 @@ namespace cAlgo
         {
 
             // --> Calcolo i valori dei simboli richiesti
-            if (RealSymbol[0] == SymbolCode1) _setValue(Symbol1, index, SymbolCode1);
-            if (RealSymbol[1] == SymbolCode2) _setValue(Symbol2, index, SymbolCode2);
-            if (RealSymbol[2] == SymbolCode3) _setValue(Symbol3, index, SymbolCode3);
-            if (RealSymbol[3] == SymbolCode4) _setValue(Symbol4, index, SymbolCode4);
-            if (RealSymbol[4] == SymbolCode5) _setValue(Symbol5, index, SymbolCode5);
-            if (RealSymbol[5] == SymbolCode6) _setValue(Symbol6, index, SymbolCode6);
-            if (RealSymbol[6] == SymbolCode7) _setValue(Symbol7, index, SymbolCode7);
-            if (RealSymbol[7] == SymbolCode8) _setValue(Symbol8, index, SymbolCode8);
-            if (RealSymbol[8] == SymbolCode9) _setValue(Symbol9, index, SymbolCode9);
-            if (RealSymbol[9] == SymbolCode10) _setValue(Symbol10, index, SymbolCode10);
+            if (RealSymbol[0] == SymbolCode1)
+                _setValue(Symbol1, index, SymbolCode1);
+            if (RealSymbol[1] == SymbolCode2)
+                _setValue(Symbol2, index, SymbolCode2);
+            if (RealSymbol[2] == SymbolCode3)
+                _setValue(Symbol3, index, SymbolCode3);
+            if (RealSymbol[3] == SymbolCode4)
+                _setValue(Symbol4, index, SymbolCode4);
+            if (RealSymbol[4] == SymbolCode5)
+                _setValue(Symbol5, index, SymbolCode5);
+            if (RealSymbol[5] == SymbolCode6)
+                _setValue(Symbol6, index, SymbolCode6);
+            if (RealSymbol[6] == SymbolCode7)
+                _setValue(Symbol7, index, SymbolCode7);
+            if (RealSymbol[7] == SymbolCode8)
+                _setValue(Symbol8, index, SymbolCode8);
+            if (RealSymbol[8] == SymbolCode9)
+                _setValue(Symbol9, index, SymbolCode9);
+            if (RealSymbol[9] == SymbolCode10)
+                _setValue(Symbol10, index, SymbolCode10);
 
         }
 
@@ -183,10 +193,10 @@ namespace cAlgo
                 return;
 
             // --> Organizzo i dati per la richiesta degli aggiornamenti
-            Guru.API.RequestProductInfo Request = new Guru.API.RequestProductInfo
+            Guru.API.RequestProductInfo Request = new Guru.API.RequestProductInfo 
             {
 
-                MyProduct = new Guru.Product
+                MyProduct = new Guru.Product 
                 {
 
                     ID = ID,
@@ -234,11 +244,13 @@ namespace cAlgo
 
             // --> Alcuni controlli preliminari sul testo
             CROSSSymbol = CROSSSymbol.Trim().ToUpper();
-            if (CROSSSymbol == "") return;
+            if (CROSSSymbol == "")
+                return;
 
             // --> Potrebbe essere uno strumento inesistente
             Symbol CROSS = Symbols.GetSymbol(CROSSSymbol);
-            if (CROSS == null) return;
+            if (CROSS == null)
+                return;
 
             // --> Prelevo i dati per il symbolo in lavorazione
             MarketSeries CROSSsr = MarketData.GetSeries(CROSS.Code, TimeFrame);
@@ -252,7 +264,7 @@ namespace cAlgo
 
 
             string CROSStext = string.Format("« {0} {1}", CROSS.Code, Math.Round(View[index], CROSS.Digits));
-            
+
             ChartObjects.DrawText(CROSS.Code, CROSStext, index + 1, View[index], VerticalAlignment.Center, HorizontalAlignment.Right, Colors.Red);
 
         }
@@ -377,7 +389,7 @@ namespace Guru
             {
 
                 // --> Strutturo le informazioni per la richiesta POST
-                NameValueCollection data = new NameValueCollection
+                NameValueCollection data = new NameValueCollection 
                 {
                     {
                         "account_broker",
@@ -422,8 +434,7 @@ namespace Guru
                 // -->>> Nel cBot necessita l'attivazione di "AccessRights = AccessRights.FullAccess"
                 ProductInfo.LastProduct = JsonConvert.DeserializeObject<Product>(ProductInfo.Source);
 
-            }
-            catch (Exception Exp)
+            } catch (Exception Exp)
             {
 
                 // --> Qualcosa è andato storto, registro l'eccezione

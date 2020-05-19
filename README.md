@@ -1,2 +1,5 @@
 # Market Watch
-Scarica la [versione compilata](https://ctrader.guru/product/market-watch/) oppure compila il sorgente utilizzando la cTrader
+Una visione d'insieme unica, strumento utilizzato dai PRO
+
+[Pagina ufficiale](https://ctrader.guru/product/market-watch/)
+

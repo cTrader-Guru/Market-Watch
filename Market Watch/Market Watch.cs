@@ -262,7 +262,7 @@ namespace cAlgo
         /// <summary>
         /// La versione del prodotto, progressivo, utilie per controllare gli aggiornamenti se viene reso disponibile sul sito ctrader.guru
         /// </summary>
-        public const string VERSION = "1.0.4";
+        public const string VERSION = "1.0.5";
 
         #endregion
 
@@ -434,17 +434,17 @@ namespace cAlgo
 
             double CROSSpips = 0;
 
-            // --> Devo uniformare il numero di pips, i digits saranno di sicuro diversi
+            // --> Devo uniformare il numero di pips, i digits saranno di sicuro diversi            
             CROSSpips = CROSS.DigitsToPips(Math.Round(CROSS_Bars.ClosePrices[CROSS_Index] - CROSS_ema.Result[CROSS_Index], CROSS.Digits));
             Result[index] = CROSSpips;
 
             if (ShowLabels)
             {
 
-                string CROSStext = string.Format("  ‹ {0} {1:0.00}", MySymbol, CROSSpips);
+                string CROSStext = string.Format("  ‹ {0} {1:0.00} ({2:0.00000})", MySymbol, CROSSpips, CROSS_Bars.ClosePrices[CROSS_Index]);
                 ChartText ThisLabel = Chart.IndicatorAreas[0].DrawText(MySymbol, CROSStext, Bars.OpenTimes.LastValue, CROSSpips, Color.Gray);
                 ThisLabel.VerticalAlignment = VerticalAlignment.Center;
-
+                
             }
 
 

@@ -74,7 +74,8 @@ namespace cAlgo
             for (int i = MyBars.ClosePrices.Count - 1; i >= 0; i--)
             {
 
-                if (MyTime == MyBars.OpenTimes[i]) return i;
+                if (MyTime == MyBars.OpenTimes[i])
+                    return i;
 
             }
 
@@ -261,7 +262,7 @@ namespace cAlgo
         /// <summary>
         /// La versione del prodotto, progressivo, utilie per controllare gli aggiornamenti se viene reso disponibile sul sito ctrader.guru
         /// </summary>
-        public const string VERSION = "1.0.3";
+        public const string VERSION = "1.0.4";
 
         #endregion
 
@@ -270,7 +271,7 @@ namespace cAlgo
         /// <summary>
         /// Identità del prodotto nel contesto di ctrader.guru
         /// </summary>
-        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://ctrader.guru/product/market-watch/")]
+        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://ctrader.guru/shop/indicators/market-watch/")]
         public string ProductInfo { get; set; }
 
         [Parameter("EMA Period", Group = "Params", DefaultValue = 500)]
@@ -306,8 +307,8 @@ namespace cAlgo
         [Parameter("10° Symbol", Group = "Symbols", DefaultValue = "GBPJPY")]
         public string SymbolCode10 { get; set; }
 
-        [Parameter("Label Trigger Hover", Group = "Styles", DefaultValue = 2.5, MinValue = 0, Step = 0.5)]
-        public double LabelSense { get; set; }
+        [Parameter("Show Labels?", Group = "Styles", DefaultValue = true)]
+        public bool ShowLabels { get; set; }
 
         [Output("1° Symbol", LineColor = "#fe5f55")]
         public IndicatorDataSeries Symbol1 { get; set; }
@@ -373,9 +374,6 @@ namespace cAlgo
             SymbolCode9 = SymbolCode9.Trim().ToUpper();
             SymbolCode10 = SymbolCode10.Trim().ToUpper();
 
-            // --> Handle per la visualizzazione del cross
-            Chart.IndicatorAreas[0].MouseMove += _mouseOnChart;
-
         }
 
         /// <summary>
@@ -414,55 +412,13 @@ namespace cAlgo
         #endregion
 
         #region Private Methods
-        
-        private void _mouseOnChart( ChartMouseEventArgs eventArgs ) {
-
-            SymbolData hoveredItem = AllSymbols.Find( item => (item.Pips != double.NaN && eventArgs.YValue > item.Pips - LabelSense && eventArgs.YValue < item.Pips + LabelSense) );
-            
-
-            if( CanDraw)
-            {
-
-                string label = "LabelCross";
-                string labelLine = "LabelCrossLine";
-
-                if (hoveredItem != null)
-                {
-
-                    if (hoveredItem.Name != string.Empty)
-                    {
-
-                        string CROSStext = string.Format("   {0} {1:0.00} ( {2:0.00000} )", hoveredItem.Name, hoveredItem.Pips, hoveredItem.Price);
-                        Chart.IndicatorAreas[0].DrawText(label, CROSStext, Bars.OpenTimes.LastValue, hoveredItem.Pips, Color.Gray);
-                        Chart.IndicatorAreas[0].DrawTrendLine(labelLine,Bars.OpenTimes.LastValue,hoveredItem.Pips,eventArgs.TimeValue,hoveredItem.Pips, Color.Gray,1,LineStyle.DotsRare);
-
-                    }
-                    else
-                    {
-
-                        Chart.IndicatorAreas[0].RemoveObject(label);
-                        Chart.IndicatorAreas[0].RemoveObject(labelLine);
-
-                    }
-
-                }
-                else
-                {
-
-                    Chart.IndicatorAreas[0].RemoveObject(label);
-                    Chart.IndicatorAreas[0].RemoveObject(labelLine);
-
-                }
-                
-            }
-
-        }
 
         private SymbolData _setValue(string MySymbol, int index, IndicatorDataSeries Result)
         {
 
             // --> Si esce se non ci sono le condizioni per continuare
-            if (!Symbols.Exists(MySymbol)) return new SymbolData();
+            if (!Symbols.Exists(MySymbol))
+                return new SymbolData();
 
 
             Symbol CROSS = Symbols.GetSymbol(MySymbol);
@@ -470,7 +426,8 @@ namespace cAlgo
 
             // --> Potrei avere un indice diverso perchè non carico le stesse barre
             int CROSS_Index = CROSS_Bars.GetIndexByDate(Bars.OpenTimes[index]);
-            if (CROSS_Index < 0) return new SymbolData();
+            if (CROSS_Index < 0)
+                return new SymbolData();
 
             ExponentialMovingAverage CROSS_ema = Indicators.ExponentialMovingAverage(CROSS_Bars.ClosePrices, MyEMAPeriod);
             ExponentialMovingAverage Current_CROSS_ema = Indicators.ExponentialMovingAverage(Bars.ClosePrices, MyEMAPeriod);
@@ -480,6 +437,16 @@ namespace cAlgo
             // --> Devo uniformare il numero di pips, i digits saranno di sicuro diversi
             CROSSpips = CROSS.DigitsToPips(Math.Round(CROSS_Bars.ClosePrices[CROSS_Index] - CROSS_ema.Result[CROSS_Index], CROSS.Digits));
             Result[index] = CROSSpips;
+
+            if (ShowLabels)
+            {
+
+                string CROSStext = string.Format("  ‹ {0} {1:0.00}", MySymbol, CROSSpips);
+                ChartText ThisLabel = Chart.IndicatorAreas[0].DrawText(MySymbol, CROSStext, Bars.OpenTimes.LastValue, CROSSpips, Color.Gray);
+                ThisLabel.VerticalAlignment = VerticalAlignment.Center;
+
+            }
+
 
             SymbolData response = new SymbolData
             {

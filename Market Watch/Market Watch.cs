@@ -242,11 +242,11 @@ namespace cAlgo
                 string CROSStext = string.Format("  ‹ {0} {1:0.00} ({2:0.00000})", MySymbol, CROSSpips, CROSS_Bars.ClosePrices[CROSS_Index]);
                 ChartText ThisLabel = Chart.IndicatorAreas[0].DrawText(MySymbol, CROSStext, Bars.OpenTimes.LastValue, CROSSpips, Color.Gray);
                 ThisLabel.VerticalAlignment = VerticalAlignment.Center;
-                
+
             }
 
 
-            SymbolData response = new SymbolData
+            SymbolData response = new SymbolData 
             {
                 Name = MySymbol,
                 Price = Result[index],

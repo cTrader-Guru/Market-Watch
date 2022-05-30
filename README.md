@@ -1,5 +1,4 @@
 # Market Watch
-Una visione d'insieme unica, strumento utilizzato dai PRO
 
-[Pagina ufficiale](https://ctrader.guru/product/market-watch/)
 
+[Find more indicators, cbots and tools](https://ctrader-guru.github.io)

@@ -11,31 +11,18 @@
 
 using System;
 using cAlgo.API;
-using System.Net;
-using System.Text;
 using cAlgo.API.Internals;
 using cAlgo.API.Indicators;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text.RegularExpressions;
 
 namespace cAlgo
 {
 
-    // --> Estensioni che rendono il codice più leggibile
     #region Extensions
 
-    /// <summary>
-    /// Estensione che fornisce metodi aggiuntivi per il simbolo
-    /// </summary>
     public static class SymbolExtensions
     {
 
-        /// <summary>
-        /// Converte il numero di pips corrente da digits a double
-        /// </summary>
-        /// <param name="Pips">Il numero di pips nel formato Digits</param>
-        /// <returns></returns>
         public static double DigitsToPips(this Symbol MySymbol, double Pips)
         {
 
@@ -43,11 +30,6 @@ namespace cAlgo
 
         }
 
-        /// <summary>
-        /// Converte il numero di pips corrente da double a digits
-        /// </summary>
-        /// <param name="Pips">Il numero di pips nel formato Double (2)</param>
-        /// <returns></returns>
         public static double PipsToDigits(this Symbol MySymbol, double Pips)
         {
 
@@ -57,17 +39,9 @@ namespace cAlgo
 
     }
 
-    /// <summary>
-    /// Estensione che fornisce metodi aggiuntivi per le Bars
-    /// </summary>
     public static class BarsExtensions
     {
 
-        /// <summary>
-        /// Converte l'indice di una bar partendo dalla data di apertura
-        /// </summary>
-        /// <param name="MyTime">La data e l'ora di apertura della candela</param>
-        /// <returns></returns>
         public static int GetIndexByDate(this Bars MyBars, DateTime MyTime)
         {
 
@@ -103,179 +77,23 @@ namespace cAlgo
 
         }
 
-        public enum MyColors
-        {
-
-            AliceBlue,
-            AntiqueWhite,
-            Aqua,
-            Aquamarine,
-            Azure,
-            Beige,
-            Bisque,
-            Black,
-            BlanchedAlmond,
-            Blue,
-            BlueViolet,
-            Brown,
-            BurlyWood,
-            CadetBlue,
-            Chartreuse,
-            Chocolate,
-            Coral,
-            CornflowerBlue,
-            Cornsilk,
-            Crimson,
-            Cyan,
-            DarkBlue,
-            DarkCyan,
-            DarkGoldenrod,
-            DarkGray,
-            DarkGreen,
-            DarkKhaki,
-            DarkMagenta,
-            DarkOliveGreen,
-            DarkOrange,
-            DarkOrchid,
-            DarkRed,
-            DarkSalmon,
-            DarkSeaGreen,
-            DarkSlateBlue,
-            DarkSlateGray,
-            DarkTurquoise,
-            DarkViolet,
-            DeepPink,
-            DeepSkyBlue,
-            DimGray,
-            DodgerBlue,
-            Firebrick,
-            FloralWhite,
-            ForestGreen,
-            Fuchsia,
-            Gainsboro,
-            GhostWhite,
-            Gold,
-            Goldenrod,
-            Gray,
-            Green,
-            GreenYellow,
-            Honeydew,
-            HotPink,
-            IndianRed,
-            Indigo,
-            Ivory,
-            Khaki,
-            Lavender,
-            LavenderBlush,
-            LawnGreen,
-            LemonChiffon,
-            LightBlue,
-            LightCoral,
-            LightCyan,
-            LightGoldenrodYellow,
-            LightGray,
-            LightGreen,
-            LightPink,
-            LightSalmon,
-            LightSeaGreen,
-            LightSkyBlue,
-            LightSlateGray,
-            LightSteelBlue,
-            LightYellow,
-            Lime,
-            LimeGreen,
-            Linen,
-            Magenta,
-            Maroon,
-            MediumAquamarine,
-            MediumBlue,
-            MediumOrchid,
-            MediumPurple,
-            MediumSeaGreen,
-            MediumSlateBlue,
-            MediumSpringGreen,
-            MediumTurquoise,
-            MediumVioletRed,
-            MidnightBlue,
-            MintCream,
-            MistyRose,
-            Moccasin,
-            NavajoWhite,
-            Navy,
-            OldLace,
-            Olive,
-            OliveDrab,
-            Orange,
-            OrangeRed,
-            Orchid,
-            PaleGoldenrod,
-            PaleGreen,
-            PaleTurquoise,
-            PaleVioletRed,
-            PapayaWhip,
-            PeachPuff,
-            Peru,
-            Pink,
-            Plum,
-            PowderBlue,
-            Purple,
-            Red,
-            RosyBrown,
-            RoyalBlue,
-            SaddleBrown,
-            Salmon,
-            SandyBrown,
-            SeaGreen,
-            SeaShell,
-            Sienna,
-            Silver,
-            SkyBlue,
-            SlateBlue,
-            SlateGray,
-            Snow,
-            SpringGreen,
-            SteelBlue,
-            Tan,
-            Teal,
-            Thistle,
-            Tomato,
-            Transparent,
-            Turquoise,
-            Violet,
-            Wheat,
-            White,
-            WhiteSmoke,
-            Yellow,
-            YellowGreen
-
-        }
-
         #endregion
 
         #region Identity
 
-        /// <summary>
-        /// Nome del prodotto, identificativo, da modificare con il nome della propria creazione
-        /// </summary>
         public const string NAME = "Market Watch";
 
-        /// <summary>
-        /// La versione del prodotto, progressivo, utilie per controllare gli aggiornamenti se viene reso disponibile sul sito ctrader.guru
-        /// </summary>
         public const string VERSION = "1.0.5";
 
         #endregion
 
         #region Params
 
-        /// <summary>
-        /// Identità del prodotto nel contesto di ctrader.guru
-        /// </summary>
-        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://ctrader.guru/shop/indicators/market-watch/")]
+        [Parameter(NAME + " " + VERSION, Group = "Identity", DefaultValue = "https://www.google.com/search?q=ctrader+guru+market+watch")]
         public string ProductInfo { get; set; }
 
-        [Parameter("EMA Period", Group = "Params", DefaultValue = 500)]
-        public int MyEMAPeriod { get; set; }
+        [Parameter("Period", Group = "EMA", DefaultValue = 500)]
+        public int EMAPeriod { get; set; }
 
         [Parameter("1° Symbol", Group = "Symbols", DefaultValue = "EURUSD")]
         public string SymbolCode1 { get; set; }
@@ -344,25 +162,17 @@ namespace cAlgo
 
         #region Property
 
-        List<SymbolData> AllSymbols = new List<SymbolData>();
-        bool CanDraw;
+        readonly List<SymbolData> AllSymbols = new List<SymbolData>();
 
         #endregion
 
         #region Indicator Events
 
-        /// <summary>
-        /// Viene generato all'avvio dell'indicatore, si inizializza l'indicatore
-        /// </summary>
         protected override void Initialize()
         {
 
-            // --> Stampo nei log la versione corrente
             Print("{0} : {1}", NAME, VERSION);
 
-            CanDraw = (RunningMode == RunningMode.RealTime || RunningMode == RunningMode.VisualBacktesting);
-
-            // --> Controllo la presenza di simboli non validi
             SymbolCode1 = SymbolCode1.Trim().ToUpper();
             SymbolCode2 = SymbolCode2.Trim().ToUpper();
             SymbolCode3 = SymbolCode3.Trim().ToUpper();
@@ -376,36 +186,30 @@ namespace cAlgo
 
         }
 
-        /// <summary>
-        /// Generato ad ogni tick, vengono effettuati i calcoli dell'indicatore
-        /// </summary>
-        /// <param name="index">L'indice della candela in elaborazione</param>
         public override void Calculate(int index)
         {
 
-            // --> Resetto la lista
             AllSymbols.RemoveAll(item => true);
 
-            // --> Calcolo i valori dei simboli richiesti
-            AllSymbols.Add(_setValue(SymbolCode1, index, Symbol1));
+            AllSymbols.Add(SetValue(SymbolCode1, index, Symbol1));
 
-            AllSymbols.Add(_setValue(SymbolCode2, index, Symbol2));
+            AllSymbols.Add(SetValue(SymbolCode2, index, Symbol2));
 
-            AllSymbols.Add(_setValue(SymbolCode3, index, Symbol3));
+            AllSymbols.Add(SetValue(SymbolCode3, index, Symbol3));
 
-            AllSymbols.Add(_setValue(SymbolCode4, index, Symbol4));
+            AllSymbols.Add(SetValue(SymbolCode4, index, Symbol4));
 
-            AllSymbols.Add(_setValue(SymbolCode5, index, Symbol5));
+            AllSymbols.Add(SetValue(SymbolCode5, index, Symbol5));
 
-            AllSymbols.Add(_setValue(SymbolCode6, index, Symbol6));
+            AllSymbols.Add(SetValue(SymbolCode6, index, Symbol6));
 
-            AllSymbols.Add(_setValue(SymbolCode7, index, Symbol7));
+            AllSymbols.Add(SetValue(SymbolCode7, index, Symbol7));
 
-            AllSymbols.Add(_setValue(SymbolCode8, index, Symbol8));
+            AllSymbols.Add(SetValue(SymbolCode8, index, Symbol8));
 
-            AllSymbols.Add(_setValue(SymbolCode9, index, Symbol9));
+            AllSymbols.Add(SetValue(SymbolCode9, index, Symbol9));
 
-            AllSymbols.Add(_setValue(SymbolCode10, index, Symbol10));
+            AllSymbols.Add(SetValue(SymbolCode10, index, Symbol10));
 
         }
 
@@ -413,10 +217,9 @@ namespace cAlgo
 
         #region Private Methods
 
-        private SymbolData _setValue(string MySymbol, int index, IndicatorDataSeries Result)
+        private SymbolData SetValue(string MySymbol, int index, IndicatorDataSeries Result)
         {
 
-            // --> Si esce se non ci sono le condizioni per continuare
             if (!Symbols.Exists(MySymbol))
                 return new SymbolData();
 
@@ -424,18 +227,13 @@ namespace cAlgo
             Symbol CROSS = Symbols.GetSymbol(MySymbol);
             Bars CROSS_Bars = MarketData.GetBars(TimeFrame, CROSS.Name);
 
-            // --> Potrei avere un indice diverso perchè non carico le stesse barre
             int CROSS_Index = CROSS_Bars.GetIndexByDate(Bars.OpenTimes[index]);
             if (CROSS_Index < 0)
                 return new SymbolData();
 
-            ExponentialMovingAverage CROSS_ema = Indicators.ExponentialMovingAverage(CROSS_Bars.ClosePrices, MyEMAPeriod);
-            ExponentialMovingAverage Current_CROSS_ema = Indicators.ExponentialMovingAverage(Bars.ClosePrices, MyEMAPeriod);
+            ExponentialMovingAverage CROSS_ema = Indicators.ExponentialMovingAverage(CROSS_Bars.ClosePrices, EMAPeriod);
 
-            double CROSSpips = 0;
-
-            // --> Devo uniformare il numero di pips, i digits saranno di sicuro diversi            
-            CROSSpips = CROSS.DigitsToPips(Math.Round(CROSS_Bars.ClosePrices[CROSS_Index] - CROSS_ema.Result[CROSS_Index], CROSS.Digits));
+            double CROSSpips = CROSS.DigitsToPips(Math.Round(CROSS_Bars.ClosePrices[CROSS_Index] - CROSS_ema.Result[CROSS_Index], CROSS.Digits));
             Result[index] = CROSSpips;
 
             if (ShowLabels)
